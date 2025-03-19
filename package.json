@@ -1,0 +1,42 @@
+{
+	"name": "eslint-plugin-react-ref",
+	"version": "1.0.0",
+	"description": "ESLint plugin to help prevent mistakes with React's useRef hook.",
+	"main": "index.js",
+	"files": [
+		"rules/*",
+		"index.js"
+	],
+	"scripts": {
+		"test": "mocha tests/",
+		"lint": "eslint --max-warnings=0 .",
+		"eslint:print-active-rules": "eslint --print-config index.js"
+	},
+	"keywords": [
+		"eslint",
+		"eslintplugin",
+		"eslint-plugin",
+		"react",
+		"useRef"
+	],
+	"author": {
+		"name": "Zwyx",
+		"url": "https://github.com/Zwyx"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Zwyx/eslint-plugin-react-ref.git"
+	},
+	"license": "MIT",
+	"peerDependencies": {
+		"eslint": ">=6.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^9.22.0",
+		"eslint-config-prettier": "^10.1.1",
+		"eslint-plugin-eslint-plugin": "^6.4.0",
+		"eslint-plugin-only-warn": "^1.1.0",
+		"mocha": "^10.2.0",
+		"prettier": "3.5.3"
+	}
+}
