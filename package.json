@@ -1,7 +1,7 @@
 {
 	"name": "eslint-plugin-react-ref",
 	"version": "1.0.0",
-	"description": "ESLint plugin to help prevent mistakes with React's useRef hook.",
+	"description": "ESLint plugin to help prevent mistakes when using React's useRef hook.",
 	"main": "index.js",
 	"files": [
 		"rules/*",

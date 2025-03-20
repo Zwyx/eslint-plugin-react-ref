@@ -9,9 +9,9 @@ module.exports = {
 		fixable: "code",
 		schema: [],
 		messages: {
-			useCurrent:
+			addCurrent:
 				"useRef variable '{{name}}' is being accessed directly. Use '{{name}}.current' to get its value.",
-			doNotUseCurrent:
+			removeCurrent:
 				"The value of the useRef variable '{{name}}' is being accessed during render. Use only '{{name}}' to get its reference.",
 			noRefValueDuringRender:
 				"The value of the useRef variable '{{name}}' is being accessed during render.",
@@ -64,7 +64,7 @@ module.exports = {
 							) {
 								context.report({
 									node: node.parent,
-									messageId: "doNotUseCurrent",
+									messageId: "removeCurrent",
 									data: { name: node.name },
 									fix(fixer) {
 										return fixer.replaceText(node.parent, node.name);
@@ -98,7 +98,7 @@ module.exports = {
 
 					context.report({
 						node,
-						messageId: "useCurrent",
+						messageId: "addCurrent",
 						data: { name: node.name },
 						fix(fixer) {
 							return fixer.insertTextAfter(node, ".current");

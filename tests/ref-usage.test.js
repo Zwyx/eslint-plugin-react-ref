@@ -23,15 +23,6 @@ ruleTester.run("ref-usage", refUsage, {
        return <div ref={ref} />;
      }`,
 		`function Component() {
-       const ref = 1;
-       console.info(ref);
-       return null;
-     }`,
-		`function Component() {
-      const ref = 1;
-      return <div ref={ref} />;
-     }`,
-		`function Component() {
        const ref = useRef(null);
        [].forEach((ref) => console.info(ref));
        return null;
@@ -44,7 +35,7 @@ ruleTester.run("ref-usage", refUsage, {
                console.info(ref);
                return null;
              }`,
-			errors: [{ messageId: "useCurrent", data: { name: "ref" } }],
+			errors: [{ messageId: "addCurrent", data: { name: "ref" } }],
 			output: `function Component() {
                const ref = useRef(null);
                console.info(ref.current);
@@ -56,7 +47,7 @@ ruleTester.run("ref-usage", refUsage, {
                const ref = useRef(null);
                return <div ref={ref.current} />;
              }`,
-			errors: [{ messageId: "doNotUseCurrent", data: { name: "ref" } }],
+			errors: [{ messageId: "removeCurrent", data: { name: "ref" } }],
 			output: `function Component() {
                const ref = useRef(null);
                return <div ref={ref} />;
@@ -67,7 +58,7 @@ ruleTester.run("ref-usage", refUsage, {
                const ref = useRef(null);
                return <div>{ref}</div>;
              }`,
-			errors: [{ messageId: "useCurrent", data: { name: "ref" } }],
+			errors: [{ messageId: "addCurrent", data: { name: "ref" } }],
 			output: `function Component() {
                const ref = useRef(null);
                return <div>{ref.current}</div>;

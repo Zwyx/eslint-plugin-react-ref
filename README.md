@@ -1,20 +1,6 @@
 # eslint-plugin-react-ref
 
-**This will warn when you write the following:**
-
-```js
-const intervalRef = useRef(0);
-
-useEffect(() => {
-	if (intervalRef) {
-		// ...
-	}
-	// ...
-```
-
-Did you instantly spot the oversight? If not, then you definitely need this plugin 😉
-
-The test should be `if (intervalRef.current) {` in order to access the value of the useRef variable. Without the `.current`, the code is broken and TypeScript won't help here.
+An ESLint plugin to help prevent mistakes when using React's `useRef` hook.
 
 ## Installation
 
@@ -84,35 +70,51 @@ Or, add `react-ref` to the `plugins` array of your `.eslintrc` configuration fil
 
 ### `ref-usage`
 
-This rule helps enforce proper usage of React's `useRef` hook by checking three common mistake patterns:
+This rule helps enforce proper usage of React's `useRef` hook by checking two common mistake patterns:
 
-1. **Incorrect reference access**: warns when a ref is being accessed directly, instead of with its `current` property.
-2. **Incorrect value access in a JSX attribute**: warns when a ref's value is being used in a JSX attribute, instead of the ref itself.
-3. **Incorrect value access during render**: warns when a ref's value is being accessed during render, as it could lead to unexpected behaviour.
+#### 1. Incorrect reference access
 
-Read more about `useRef` and its common pitfalls at [react.dev/reference/react/useRef](https://react.dev/reference/react/useRef).
+Warns when a ref is being accessed directly, instead of with its `current` property.
 
-The rule provides automatic fixes for the first two cases.
+❌ **Incorrect usage**
+
+```js
+const ref = useRef(false);
+
+useEffect(() => {
+	// `.current` is missing, the test is always truthy,
+	// TypeScript doesn't detect anything wrong
+	if (ref) {
+		// do something
+	} else {
+		// do something else
+	}
+// ...
+```
+
+✅ **Correct usage**
+
+```js
+const ref = useRef(false);
+
+useEffect(() => {
+	if (ref.current) {
+		// do something
+	} else {
+		// do something else
+	}
+// ...
+```
+
+> Note: in this particular case, the ESLint plugin `typescript-eslint` and its rule [`no-unnecessary-condition`](https://typescript-eslint.io/rules/no-unnecessary-condition/) (part of the `strict` config) would also detect the incorrect usage, as `ref` is always truthy.
+
+#### 2. Incorrect value access during render
+
+Warns when a ref's value is being accessed during render.
 
 #### ❌ Incorrect usage
 
 ```jsx
-function Component() {
-	const ref = useRef(null);
-
-	// Missing `.current` when accessing ref value
-	console.log(ref);
-
-	return <div />;
-}
-
-function Component() {
-	const ref = useRef(null);
-
-	// Accessing `ref.current` during render
-	return <div ref={ref.current} />;
-}
-
 function Component() {
 	const ref = useRef(null);
 
@@ -121,37 +123,8 @@ function Component() {
 }
 ```
 
-#### ✅ Correct usage
+> Note that this rule is not yet capable of catching all the possible ways of accessing a ref's value during render. (You could create a function returning a ref's value, and call this function during render; but this is still a React No No!)
 
-```jsx
-function Component() {
-	const ref = useRef(null);
+## Further readings
 
-	// Correctly using `.current` to access value
-	console.log(ref.current);
-
-	return <div />;
-}
-
-function Component() {
-	const ref = useRef(null);
-
-	// Valid usage in ref prop
-	return <div ref={ref} />;
-}
-
-function Component() {
-	const ref = useRef(null);
-
-	// Accessing `ref.current` in useEffect (not during render) is fine
-	useEffect(() => {
-		console.log(inputRef.current);
-	}, []);
-
-	return <div />;
-}
-```
-
-### Notes
-
-- This rule is not yet capable of catching all the possible ways of accessing a ref's value during render. (You could create a function returning a ref's value, and call this function during render; but this is still a React No No!)
+Read more about `useRef` and its common pitfalls at [react.dev/reference/react/useRef](https://react.dev/reference/react/useRef).
