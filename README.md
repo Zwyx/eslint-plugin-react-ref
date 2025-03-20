@@ -1,6 +1,6 @@
 # eslint-plugin-react-ref
 
-**This will warn you when you write the following:**
+**This will warn when you write the following:**
 
 ```js
 const intervalRef = useRef(0);
@@ -88,7 +88,7 @@ This rule helps enforce proper usage of React's `useRef` hook by checking three 
 
 1. **Incorrect reference access**: warns when a ref is being accessed directly, instead of with its `current` property.
 2. **Incorrect value access in a JSX attribute**: warns when a ref's value is being used in a JSX attribute, instead of the ref itself.
-3. **Incorrect value access during render**: warns when accessing a ref's value during render, which could lead to unexpected behaviour.
+3. **Incorrect value access during render**: warns when a ref's value is being accessed during render, as it could lead to unexpected behaviour.
 
 Read more about `useRef` and its common pitfalls at [react.dev/reference/react/useRef](https://react.dev/reference/react/useRef).
 
